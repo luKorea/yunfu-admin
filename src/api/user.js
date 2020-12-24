@@ -1,5 +1,6 @@
 import request from '@/router/axios';
 import website from "@/config/website";
+import qs from 'qs';
 
 export const loginByUsername = (tenantId, username, password, type, key, code) => request({
   url: '/api/blade-auth/oauth/token',
@@ -8,15 +9,17 @@ export const loginByUsername = (tenantId, username, password, type, key, code) =
     'Tenant-Id': tenantId,
     'Captcha-Key': key,
     'Captcha-Code': code,
+    'Content-Type': 'application/x-www-form-urlencoded'
   },
-  params: {
+  data: qs.stringify({
     tenantId,
     username,
     password,
-    grant_type: (website.captchaMode ? "captcha" : "password"),
+    grant_type: "password",
+    // grant_type: (website.captchaMode ? "captcha" : "password"),
     scope: "all",
     type
-  }
+  })
 });
 
 export const loginBySocial = (tenantId, source, code, state) => request({

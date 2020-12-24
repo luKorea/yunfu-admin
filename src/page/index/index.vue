@@ -129,10 +129,12 @@
             this.refreshLock = true;
             this.$store
               .dispatch("refreshToken")
-              .then(() => {
+              .then((res) => {
+                console.log('实时刷新TOKEN');
                 this.refreshLock = false;
               })
-              .catch(() => {
+              .catch((err) => {
+                this.$message.error(err);
                 this.refreshLock = false;
               });
           }

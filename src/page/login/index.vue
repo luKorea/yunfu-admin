@@ -1,7 +1,7 @@
 <template>
   <div class="login-container"
        @keyup.enter.native="handleLogin">
-    <top-color v-show="false"></top-color>
+    <top-color v-show="true"></top-color>
     <div class="login-weaper animated bounceInDown">
       <div class="login-left">
         <div class="login-time">
@@ -12,17 +12,18 @@
       </div>
       <div class="login-border">
         <div class="login-main">
+<!--     {{ $t('login.title') }}{{website.title}}      -->
           <h4 class="login-title">
-            {{ $t('login.title') }}{{website.title}}
+            登录系统
             <top-lang></top-lang>
           </h4>
           <userLogin v-if="activeName==='user'"></userLogin>
-          <codeLogin v-else-if="activeName==='code'"></codeLogin>
-          <thirdLogin v-else-if="activeName==='third'"></thirdLogin>
+<!--          <codeLogin v-else-if="activeName==='code'"></codeLogin>-->
+<!--          <thirdLogin v-else-if="activeName==='third'"></thirdLogin>-->
           <div class="login-menu">
-            <a href="#" @click.stop="activeName='user'">{{ $t('login.userLogin') }}</a>
-            <!--<a href="#" @click.stop="activeName='code'">{{ $t('login.phoneLogin') }}</a>-->
-            <a href="#" @click.stop="activeName='third'">{{ $t('login.thirdLogin') }}</a>
+<!--            <a href="#" @click.stop="activeName='user'">{{ $t('login.userLogin') }}</a>-->
+<!--            <a href="#" @click.stop="activeName='code'">{{ $t('login.phoneLogin') }}</a>-->
+<!--            <a href="#" @click.stop="activeName='third'">{{ $t('login.thirdLogin') }}</a>-->
           </div>
         </div>
 

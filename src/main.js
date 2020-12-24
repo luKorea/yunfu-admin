@@ -21,6 +21,8 @@ import basicContainer from './components/basic-container/main'
 import thirdRegister from './components/third-register/main'
 import avueUeditor from 'avue-plugin-ueditor';
 import website from '@/config/website';
+import AvueUeditor from 'avue-plugin-ueditor';
+Vue.use(AvueUeditor);
 
 Vue.use(router);
 Vue.use(VueAxios, axios);
@@ -49,6 +51,7 @@ iconfontVersion.forEach(ele => {
 });
 
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,

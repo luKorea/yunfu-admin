@@ -15,7 +15,7 @@ import website from '@/config/website';
 import {Base64} from 'js-base64';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-
+import { showFullScreenLoading,  tryHideFullScreenLoading } from '@/util/loading';
 //默认超时时间
 axios.defaults.timeout = 10000;
 //返回其他状态码
@@ -28,10 +28,14 @@ axios.defaults.withCredentials = true;
 NProgress.configure({
   showSpinner: false
 });
+// 配置默认请求地址
+// axios.defaults.baseURL = 'http://yunapi.gzbigbang.cn/rsy';
+// axios.defaults.baseURL = 'http://39.105.49.12:8099';
 //http request拦截
 axios.interceptors.request.use(config => {
   //开启 progress bar
-  NProgress.start();
+  // NProgress.start();
+  showFullScreenLoading()
   const meta = (config.meta || {});
   const isToken = meta.isToken === false;
   config.headers['Authorization'] = `Basic ${Base64.encode(`${website.clientId}:${website.clientSecret}`)}`;
@@ -54,7 +58,8 @@ axios.interceptors.request.use(config => {
 //http response 拦截
 axios.interceptors.response.use(res => {
   //关闭 progress bar
-  NProgress.done();
+  // NProgress.done();
+  tryHideFullScreenLoading();
   //获取状态码
   const status = res.data.code || res.status;
   const statusWhiteList = website.statusWhiteList || [];
@@ -73,7 +78,8 @@ axios.interceptors.response.use(res => {
   }
   return res;
 }, error => {
-  NProgress.done();
+  // NProgress.done();
+  tryHideFullScreenLoading();
   return Promise.reject(new Error(error));
 });
 

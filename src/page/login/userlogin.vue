@@ -5,15 +5,15 @@
            ref="loginForm"
            :model="loginForm"
            label-width="0">
-    <el-form-item v-if="tenantMode" prop="tenantId">
-      <el-input size="small"
-                @keyup.enter.native="handleLogin"
-                v-model="loginForm.tenantId"
-                auto-complete="off"
-                :placeholder="$t('login.tenantId')">
-        <i slot="prefix" class="icon-quanxian"/>
-      </el-input>
-    </el-form-item>
+<!--    <el-form-item v-if="tenantMode" prop="tenantId">-->
+<!--      <el-input size="small"-->
+<!--                @keyup.enter.native="handleLogin"-->
+<!--                v-model="loginForm.tenantId"-->
+<!--                auto-complete="off"-->
+<!--                :placeholder="$t('login.tenantId')">-->
+<!--        <i slot="prefix" class="icon-quanxian"/>-->
+<!--      </el-input>-->
+<!--    </el-form-item>-->
     <el-form-item prop="username">
       <el-input size="small"
                 @keyup.enter.native="handleLogin"
@@ -34,25 +34,25 @@
         <i slot="prefix" class="icon-mima"/>
       </el-input>
     </el-form-item>
-    <el-form-item v-if="this.website.captchaMode" prop="code">
-      <el-row :span="24">
-        <el-col :span="16">
-          <el-input size="small"
-                    @keyup.enter.native="handleLogin"
-                    v-model="loginForm.code"
-                    auto-complete="off"
-                    :placeholder="$t('login.code')">
-            <i slot="prefix" class="icon-yanzhengma"/>
-          </el-input>
-        </el-col>
-        <el-col :span="8">
-          <div class="login-code">
-            <img :src="loginForm.image" class="login-code-img" @click="refreshCode"
-            />
-          </div>
-        </el-col>
-      </el-row>
-    </el-form-item>
+<!--    <el-form-item v-if="this.website.captchaMode" prop="code">-->
+<!--      <el-row :span="24">-->
+<!--        <el-col :span="16">-->
+<!--          <el-input size="small"-->
+<!--                    @keyup.enter.native="handleLogin"-->
+<!--                    v-model="loginForm.code"-->
+<!--                    auto-complete="off"-->
+<!--                    :placeholder="$t('login.code')">-->
+<!--            <i slot="prefix" class="icon-yanzhengma"/>-->
+<!--          </el-input>-->
+<!--        </el-col>-->
+<!--        <el-col :span="8">-->
+<!--          <div class="login-code">-->
+<!--            <img :src="loginForm.image" class="login-code-img" @click="refreshCode"-->
+<!--            />-->
+<!--          </div>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--    </el-form-item>-->
     <el-form-item>
       <el-button type="primary"
                  size="small"
@@ -68,6 +68,7 @@
   import {info} from "@/api/system/tenant";
   import {getCaptcha} from "@/api/user";
   import {getTopUrl} from "@/util/util";
+  import {getList} from "@/api/content/policies";
 
   export default {
     name: "userlogin",
@@ -78,15 +79,15 @@
           //租户ID
           tenantId: "000000",
           //用户名
-          username: "admin",
+          username: "",
           //密码
-          password: "admin",
+          password: "",
           //账号类型
           type: "account",
           //验证码的值
-          code: "",
+          // code: "",
           //验证码的索引
-          key: "",
+          // key: "",
           //预加载白色背景
           image: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
         },
@@ -106,8 +107,8 @@
       };
     },
     created() {
-      this.getTenant();
-      this.refreshCode();
+      // this.getTenant();
+      // this.refreshCode();
     },
     mounted() {
     },
@@ -139,9 +140,10 @@
             this.$store.dispatch("LoginByUsername", this.loginForm).then(() => {
               this.$router.push({path: this.tagWel.value});
               loading.close();
-            }).catch(() => {
+            }).catch((err) => {
+              this.$message.error(err);
               loading.close();
-              this.refreshCode();
+              // this.refreshCode();
             });
           }
         });

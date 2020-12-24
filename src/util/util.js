@@ -1,4 +1,5 @@
 import {validatenull} from './validate'
+import {getStore} from "@/util/store";
 //表单序列化
 export const serialize = data => {
   let list = [];
@@ -308,3 +309,7 @@ export const getQueryString = (name) => {
   if (r != null) return unescape(decodeURI(r[2]));
   return null;
 }
+
+
+// 获取登陆用户ID
+// export const USER_ID = getStore({name: 'userInfo'}).user_id !== undefined ? getStore({name: 'userInfo'}).user_id : ''

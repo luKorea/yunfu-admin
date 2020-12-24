@@ -11,7 +11,7 @@
     "test:e2e": "vue-cli-service test:e2e"
   },
   "dependencies": {
-    "avue-plugin-ueditor": "^0.1.4",
+    "avue-plugin-ueditor": "^0.1.7",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "classlist-polyfill": "^1.2.0",
@@ -20,6 +20,7 @@
     "js-base64": "^2.5.1",
     "js-cookie": "^2.2.0",
     "js-md5": "^0.7.3",
+    "md5": "^2.3.0",
     "mockjs": "^1.0.1-beta3",
     "node-gyp": "^5.0.6",
     "nprogress": "^0.2.0",
@@ -29,7 +30,8 @@
     "vue-axios": "^2.1.2",
     "vue-i18n": "^8.7.0",
     "vue-router": "^3.0.1",
-    "vuex": "^3.1.1"
+    "vuex": "^3.1.1",
+    "wangeditor": "^4.5.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
