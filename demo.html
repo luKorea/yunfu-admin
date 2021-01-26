@@ -1,0 +1,233 @@
+<html>
+<head></head>
+<body>
+<div style="display: flex;">
+  <button type="button" class="el-button el-button--primary"><!---->
+    <!----><span>下载模版</span></button>
+  <div style="width: 20px;"></div>
+  <div>
+    <div tabindex="0" class="el-upload el-upload--text">
+      <button type="button" class="el-button el-button--primary"><!---->
+        <!----><span>导入 excel</span></button>
+      <input type="file" name="file" class="el-upload__input"></div>
+  </div>
+</div>
+<br>
+<div class="avue-crud">
+  <div class="avue-crud__search" style="display: none;"><!----></div>
+  <div class="avue-crud__menu">
+    <div class="avue-crud__left">
+      <button type="button"
+              class="el-button el-button--primary el-button--small"><!----><i
+        class="el-icon-plus"></i><span>
+        新 增
+      </span></button><!----><!----><!----></div>
+    <div class="avue-crud__right"><!---->
+      <button type="button"
+              class="el-button el-tooltip el-button--default el-button--small is-circle"
+              aria-describedby="el-tooltip-1154" tabindex="0"><!----><i
+        class="el-icon-refresh"></i><!----></button>
+      <button type="button"
+              class="el-button el-tooltip el-button--default el-button--small is-circle"
+              aria-describedby="el-tooltip-9779" tabindex="0"><!----><i
+        class="el-icon-s-operation"></i><!----></button><!----><!----></div>
+  </div><!---->
+  <div class="el-table el-table--fit el-table--small">
+    <div class="hidden-columns"><!----><!----><!----><!---->
+      <div></div>
+      <span><div></div><div></div><div></div></span>
+      <div class="avue-crud__btn"></div>
+    </div>
+    <div class="el-table__header-wrapper">
+      <table cellspacing="0" cellpadding="0" border="0" class="el-table__header"
+             style="width: 1527px;">
+        <colgroup>
+          <col name="el-table_2_column_4" width="430">
+          <col name="el-table_2_column_5" width="428">
+          <col name="el-table_2_column_6" width="428">
+          <col name="el-table_2_column_3" width="1">
+          <col name="el-table_2_column_7" width="240">
+          <col name="gutter" width="0">
+        </colgroup>
+        <thead class="has-gutter">
+        <tr class="">
+          <th colspan="1" rowspan="1" class="el-table_2_column_4     is-leaf">
+            <div class="cell">id</div>
+          </th>
+          <th colspan="1" rowspan="1" class="el-table_2_column_5     is-leaf">
+            <div class="cell">姓名</div>
+          </th>
+          <th colspan="1" rowspan="1" class="el-table_2_column_6     is-leaf">
+            <div class="cell">年龄</div>
+          </th>
+          <th colspan="1" rowspan="1" class="el-table_2_column_3     is-leaf">
+            <div class="cell"></div>
+          </th>
+          <th colspan="1" rowspan="1"
+              class="el-table_2_column_7  is-center   is-hidden is-leaf">
+            <div class="cell">操作</div>
+          </th>
+          <th class="gutter" style="width: 0px; display: none;"></th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="el-table__body-wrapper is-scrolling-none">
+      <table cellspacing="0" cellpadding="0" border="0" class="el-table__body"
+             style="width: 1527px;">
+        <colgroup>
+          <col name="el-table_2_column_4" width="430">
+          <col name="el-table_2_column_5" width="428">
+          <col name="el-table_2_column_6" width="428">
+          <col name="el-table_2_column_3" width="1">
+          <col name="el-table_2_column_7" width="240">
+        </colgroup>
+        <tbody><!----></tbody>
+      </table>
+      <div class="el-table__empty-block" style="height: 100%; width: 1527px;">
+        <span class="el-table__empty-text"><div class="avue-crud__empty"><div
+          class="avue-empty"><div class="avue-empty__image"
+                                  style="height: 50px;"><img
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxlbGxpcHNlIGZpbGw9IiNGNUY1RjUiIGN4PSIzMiIgY3k9IjMzIiByeD0iMzIiIHJ5PSI3Ii8+CiAgICA8ZyBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0iI0Q5RDlEOSI+CiAgICAgIDxwYXRoIGQ9Ik01NSAxMi43Nkw0NC44NTQgMS4yNThDNDQuMzY3LjQ3NCA0My42NTYgMCA0Mi45MDcgMEgyMS4wOTNjLS43NDkgMC0xLjQ2LjQ3NC0xLjk0NyAxLjI1N0w5IDEyLjc2MVYyMmg0NnYtOS4yNHoiLz4KICAgICAgPHBhdGggZD0iTTQxLjYxMyAxNS45MzFjMC0xLjYwNS45OTQtMi45MyAyLjIyNy0yLjkzMUg1NXYxOC4xMzdDNTUgMzMuMjYgNTMuNjggMzUgNTIuMDUgMzVoLTQwLjFDMTAuMzIgMzUgOSAzMy4yNTkgOSAzMS4xMzdWMTNoMTEuMTZjMS4yMzMgMCAyLjIyNyAxLjMyMyAyLjIyNyAyLjkyOHYuMDIyYzAgMS42MDUgMS4wMDUgMi45MDEgMi4yMzcgMi45MDFoMTQuNzUyYzEuMjMyIDAgMi4yMzctMS4zMDggMi4yMzctMi45MTN2LS4wMDd6IiBmaWxsPSIjRkFGQUZBIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K"
+          alt=""></div><p class="avue-empty__desc">暂无数据</p></div></div></span>
+      </div><!----></div><!----><!---->
+    <div class="el-table__fixed-right" style="width: 240px; height: 243px;">
+      <div class="el-table__fixed-header-wrapper">
+        <table cellspacing="0" cellpadding="0" border="0"
+               class="el-table__header" style="width: 1527px;">
+          <colgroup>
+            <col name="el-table_2_column_4" width="430">
+            <col name="el-table_2_column_5" width="428">
+            <col name="el-table_2_column_6" width="428">
+            <col name="el-table_2_column_3" width="1">
+            <col name="el-table_2_column_7" width="240">
+          </colgroup>
+          <thead class="">
+          <tr class="">
+            <th colspan="1" rowspan="1"
+                class="el-table_2_column_4     is-hidden is-leaf">
+              <div class="cell">id</div>
+            </th>
+            <th colspan="1" rowspan="1"
+                class="el-table_2_column_5     is-hidden is-leaf">
+              <div class="cell">姓名</div>
+            </th>
+            <th colspan="1" rowspan="1"
+                class="el-table_2_column_6     is-hidden is-leaf">
+              <div class="cell">年龄</div>
+            </th>
+            <th colspan="1" rowspan="1"
+                class="el-table_2_column_3     is-hidden is-leaf">
+              <div class="cell"></div>
+            </th>
+            <th colspan="1" rowspan="1"
+                class="el-table_2_column_7  is-center   is-leaf">
+              <div class="cell">操作</div>
+            </th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="el-table__fixed-body-wrapper" style="top: 43px;">
+        <table cellspacing="0" cellpadding="0" border="0" class="el-table__body"
+               style="width: 1527px;">
+          <colgroup>
+            <col name="el-table_2_column_4" width="430">
+            <col name="el-table_2_column_5" width="428">
+            <col name="el-table_2_column_6" width="428">
+            <col name="el-table_2_column_3" width="1">
+            <col name="el-table_2_column_7" width="240">
+          </colgroup>
+          <tbody><!----></tbody>
+        </table><!----></div><!----></div>
+    <div class="el-table__fixed-right-patch"
+         style="width: 0px; height: 43px;"></div>
+    <div class="el-table__column-resize-proxy" style="display: none;"></div>
+  </div>
+  <div class="avue-crud__pagination">
+    <div class="el-pagination is-background" style="display: none;"><span
+      class="el-pagination__total">共 0 条</span><span
+      class="el-pagination__sizes"><div class="el-select el-select--mini"><!----><div
+      class="el-input el-input--mini el-input--suffix"><!----><input type="text"
+                                                                     readonly="readonly"
+                                                                     autocomplete="off"
+                                                                     placeholder="请选择"
+                                                                     class="el-input__inner">
+      <!----><span class="el-input__suffix"><span
+        class="el-input__suffix-inner"><i
+        class="el-select__caret el-input__icon el-icon-arrow-up"></i><!---->
+        <!----><!----><!----><!----></span><!----></span><!----><!----></div><div
+      class="el-select-dropdown el-popper" style="display: none;"><div
+      class="el-scrollbar" style=""><div
+      class="el-select-dropdown__wrap el-scrollbar__wrap"
+      style="margin-bottom: -7px; margin-right: -7px;"><ul
+      class="el-scrollbar__view el-select-dropdown__list"><!----><li
+      class="el-select-dropdown__item selected"><span>10条/页</span></li><li
+      class="el-select-dropdown__item"><span>20条/页</span></li><li
+      class="el-select-dropdown__item"><span>30条/页</span></li><li
+      class="el-select-dropdown__item"><span>40条/页</span></li><li
+      class="el-select-dropdown__item"><span>50条/页</span></li><li
+      class="el-select-dropdown__item"><span>100条/页</span></li></ul></div><div
+      class="el-scrollbar__bar is-horizontal"><div class="el-scrollbar__thumb"
+                                                   style="transform: translateX(0%);"></div></div><div
+      class="el-scrollbar__bar is-vertical"><div class="el-scrollbar__thumb"
+                                                 style="transform: translateY(0%);"></div></div></div>
+      <!----></div></div></span>
+      <button type="button" disabled="disabled" class="btn-prev"><i
+        class="el-icon el-icon-arrow-left"></i></button>
+      <ul class="el-pager">
+        <li class="number active">1</li><!----><!----><!----></ul>
+      <button type="button" disabled="disabled" class="btn-next"><i
+        class="el-icon el-icon-arrow-right"></i></button>
+      <span class="el-pagination__jump">前往<div
+        class="el-input el-pagination__editor is-in-pagination"><!----><input
+        type="number" autocomplete="off" min="1" max="1"
+        class="el-input__inner"><!----><!----><!----><!----></div>页</span></div>
+  </div>
+  <div class="el-dialog__wrapper avue-dialog avue-crud__dialog" size="60%"
+       style="display: none;">
+    <div role="dialog" aria-modal="true" aria-label="dialog" class="el-dialog"
+         style="margin-top: 100px; width: 60%;">
+      <div class="el-dialog__header">
+        <div class="avue-crud__dialog__header"><span
+          class="el-dialog__title"></span>
+          <div class="avue-crud__dialog__menu"><i
+            class="el-dialog__close el-icon-full-screen"></i></div>
+        </div>
+        <button type="button" aria-label="Close" class="el-dialog__headerbtn"><i
+          class="el-dialog__close el-icon el-icon-close"></i></button>
+      </div><!----><!----></div>
+  </div>
+  <div tabindex="-1"
+       class="el-drawer__wrapper avue-dialog avue-crud__dialog avue-crud__column"
+       style="display: none;">
+    <div role="document" tabindex="-1" class="el-drawer__container">
+      <div aria-modal="true" aria-labelledby="el-drawer__title" aria-label="列显隐"
+           role="dialog" tabindex="-1" class="el-drawer rtl"
+           style="width: 50%;">
+        <header id="el-drawer__title" class="el-drawer__header"><span
+          role="heading" tabindex="0" title="列显隐">列显隐</span>
+          <button aria-label="close 列显隐" type="button"
+                  class="el-drawer__close-btn"><i
+            class="el-dialog__close el-icon el-icon-close"></i></button>
+        </header><!----></div>
+    </div>
+  </div>
+  <div tabindex="-1"
+       class="el-drawer__wrapper avue-dialog avue-crud__dialog avue-crud__filter"
+       style="display: none;">
+    <div role="document" tabindex="-1" class="el-drawer__container">
+      <div aria-modal="true" aria-labelledby="el-drawer__title"
+           aria-label="过滤条件" role="dialog" tabindex="-1" class="el-drawer rtl"
+           style="width: 60%;">
+        <header id="el-drawer__title" class="el-drawer__header"><span
+          role="heading" tabindex="0" title="过滤条件">过滤条件</span>
+          <button aria-label="close 过滤条件" type="button"
+                  class="el-drawer__close-btn"><i
+            class="el-dialog__close el-icon el-icon-close"></i></button>
+        </header><!----></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

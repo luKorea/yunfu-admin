@@ -14,14 +14,17 @@
                :before-open="beforeOpen"
                @search-change="searchChange"
                @search-reset="searchReset"
-               @selection-change="selectionChange"
                @current-change="currentChange"
                @size-change="sizeChange"
                @refresh-change="refreshChange"
                @on-load="onLoad">
       <template slot-scope="scope" slot="menu">
-        <el-button size="small" type="text" v-if="scope.row.changeState === 1" @click="setState(0, scope.row.id)">启用</el-button>
-        <el-button size="small" type="text" v-if="scope.row.changeState === 0" @click="setState(1, scope.row.id)">禁用</el-button>
+        <el-button size="small" type="text" v-if="scope.row.changeState === 1"
+                   @click="setState(0, scope.row.id)">启用
+        </el-button>
+        <el-button size="small" type="text" v-if="scope.row.changeState === 0"
+                   @click="setState(1, scope.row.id)">禁用
+        </el-button>
       </template>
     </avue-crud>
   </basic-container>
@@ -63,6 +66,30 @@ export default {
             prop: 'id',
             width: 80,
             display: false
+          },
+          {
+            label: '评委会总数',
+            prop: 'tjCount',
+            display: false
+          },
+          {
+            label: '评委会',
+            prop: 'theJuryInitVOList',
+            type: 'select',
+            hide: true,
+            row: true,
+            span: 24,
+            multiple: true,
+            dicUrl: '/the-jury/pull/list',
+            props: {
+              label: 'theJuryName',
+              value: 'id'
+            },
+            rules: [{
+              required: true,
+              message: "请选择评委会",
+              trigger: "blur"
+            }]
           },
           {
             label: '年度',
@@ -178,7 +205,9 @@ export default {
   },
   methods: {
     rowSave(row, done, loading) {
+      console.log(row);
       row['createdBy'] = this.USER_ID;
+      row['tjIds'] = row.theJuryInitVOList;
       add(row).then(() => {
         this.onLoad(this.page);
         this.$message({
@@ -210,6 +239,17 @@ export default {
     },
     rowUpdate(row, index, done, loading) {
       row['createdBy'] = this.USER_ID;
+      let tjIds = [];
+      if (row.theJuryInitVOList) {
+        row.theJuryInitVOList.forEach(item => {
+          if (typeof item === "object") {
+           tjIds.push(item.id);
+          } else {
+            tjIds.push(item);
+          }
+        })
+      }
+      row['tjIds'] = tjIds;
       update(row).then(() => {
         this.onLoad(this.page);
         this.$message({

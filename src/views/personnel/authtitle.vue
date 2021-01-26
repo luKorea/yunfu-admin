@@ -30,6 +30,13 @@
 
     <el-dialog :modal="false" :close-on-click-modal="false" title="查看" :visible.sync="showViewDialog" width="30%">
       <el-form :model="form">
+        <el-form-item label="职称证书" :label-width="formLabelWidth">
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="form.titleCertificate"
+            :preview-src-list="[form.titleCertificate]"
+          />
+        </el-form-item>
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.userName" disabled />
         </el-form-item>

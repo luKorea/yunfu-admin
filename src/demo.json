@@ -1,0 +1,36 @@
+{
+  "apisign": "",
+  "data": {
+    "tjId": 1000035,
+    "tjName": "1",
+    "tjOffice": "1",
+    "provinceCode": "15",
+    "provinceName": "内蒙古自治区",
+    "cityCode": "1501",
+    "cityName": "呼和浩特市",
+    "areaCode": "150102",
+    "areaName": "新城区",
+    "detailedAddress": "1",
+    "accepScope": "1",
+    "linkPhone": "11111111111",
+    "regionId": "",
+    "region": "市直",
+    "postcode": "1",
+    "changeState": "0",
+    "tgList": [
+      {
+        "tgId": 1000022,
+        "tmsId": 1000022
+      },
+      {
+        "tgId": 1000022,
+        "tmsId": 1000022
+      }
+    ],
+    "tmsList": [
+      {
+        "tmsId": 1000022
+      }
+    ]
+  }
+}

@@ -22,6 +22,7 @@
           </div>
         </template>
       </el-table-column>
+
       <el-table-column label="状态" prop="changeState" :formatter="stateFormat"
                        align="center" width="120"/>
       <el-table-column label="操作" align="center">
@@ -46,79 +47,86 @@
     <el-dialog :modal="false" :close-on-click-modal="false"
                @close="resetForm"
                title="新增"
-               :visible.sync="showDialog" top="0vh">
+               :visible.sync="showDialog" top="5vh">
+      <el-steps :active="active" align-center>
+        <el-step title="基础配置"></el-step>
+        <el-step title="申报配置"></el-step>
+      </el-steps>
       <el-form ref="form" :model="form" label-width="120px"
                style="margin-top: 20px">
-        <el-form-item label="关联政策">
-          <el-select v-model="form.pid" placeholder="请选择" style="width: 100%">
-            <el-option v-for="item in treeData" :key="item.id"
-                       :label="item.title" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="选择状态">
-          <el-radio-group v-model="form.changeState">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="类别">
-          <el-select v-model="form.type" placeholder="请选择"
-                     style="width: 100%">
-            <el-option v-for="item in typeData" :key="item.bcCode"
-                       :label="item.contentName"
-                       :value="item.bcCode"></el-option>
-          </el-select>
-        </el-form-item>
-        <!-- 专业技术 -->
-        <el-form-item
-          v-for="(major, index) in dynamicValidateForm.majorSkillListItem"
-          label="专业技术"
-          :key="major.key">
-          <el-input v-model="major.value"
-                    style="width: 200px; margin-right: 20px"></el-input>
-          <el-button @click="addMajor">新增</el-button>
-          <el-button @click.prevent="removeMajor(major)" type="danger">删除</el-button>
-        </el-form-item>
-        <!-- 级别职称 -->
-        <div v-for="(type, index) in dynamicValidateForm.typeListItem" style="border: 1px solid salmon; padding: 8px; margin-bottom: 8px">
-          <el-form-item label="级别">
-            <el-select v-model="type.bcCode" placeholder="请选择"
-                       style="margin-right: 20px">
-              <el-option v-for="item in levelData" :key="item.bcCode"
+        <template v-if="active === 1">
+          <el-form-item label="关联政策">
+            <el-select v-model="form.pid" placeholder="请选择" style="width: 100%">
+              <el-option v-for="item in treeData" :key="item.id"
+                         :label="item.title" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="选择状态">
+            <el-radio-group v-model="form.changeState">
+              <el-radio :label="1">启用</el-radio>
+              <el-radio :label="0">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="类别">
+            <el-select v-model="form.type" placeholder="请选择"
+                       style="width: 100%">
+              <el-option v-for="item in typeData" :key="item.bcCode"
                          :label="item.contentName"
                          :value="item.bcCode"></el-option>
             </el-select>
-<!--            <el-button @click="addType">新增级别</el-button>-->
-<!--            <el-button @click.prevent="removeType(type)" type="danger">删除</el-button>-->
           </el-form-item>
-          <el-form-item label="职称">
-            <el-input v-model="type.grade"></el-input>
+          <!-- 专业技术 -->
+          <el-form-item
+            v-for="(major, index) in dynamicValidateForm.majorSkillListItem"
+            label="专业技术"
+            :key="major.key">
+            <el-input v-model="major.value"
+                      style="width: 200px; margin-right: 20px"></el-input>
+            <el-button @click="addMajor">新增</el-button>
+            <el-button @click.prevent="removeMajor(major)">删除</el-button>
           </el-form-item>
-
+          <!-- 级别职称 -->
+          <div v-for="(type, index) in dynamicValidateForm.typeListItem">
+            <el-form-item label="级别">
+              <el-select v-model="type.bcCode" placeholder="请选择"
+                         style="margin-right: 20px">
+                <el-option v-for="item in levelData" :key="item.bcCode"
+                           :label="item.contentName"
+                           :value="item.bcCode"></el-option>
+              </el-select>
+              <el-button @click="addType">新增级别</el-button>
+              <el-button @click.prevent="removeType(type)">删除</el-button>
+            </el-form-item>
+            <el-form-item label="职称">
+              <el-input v-model="type.grade"></el-input>
+            </el-form-item>
+          </div>
+        </template>
+        <template v-if="active === 2">
           <div>
             <el-form-item label="申报条件配置： "></el-form-item>
             <el-row :gutter="10">
               <el-col :span="12">
                 <el-form-item label="最小年龄">
-                  <el-input v-model="type.minAge" type="number"></el-input>
+                  <el-input v-model="form.minAge" type="number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="最大年龄">
-                  <el-input v-model="type.maxAge" type="number"></el-input>
+                  <el-input v-model="form.maxAge" type="number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="8">
               <el-form-item label="前置职称条件">
                 <el-col :span="16">
-                  <el-select v-model="type.msId" placeholder="专业技术"
+                  <el-select v-model="form.msId" placeholder="专业技术"
                              style="margin-right: 20px" @change="selectTitle">
                     <el-option v-for="item in titleData" :key="item.id"
                                :label="item.majorSkill"
                                :value="item.id"></el-option>
                   </el-select>
-                  <el-select v-model="type.tgId" placeholder="级别"
+                  <el-select v-model="form.tgId" placeholder="级别"
                              style="margin-right: 20px">
                     <el-option v-for="item in titleAndData" :key="item.id"
                                :label="item.grade" :value="item.id"></el-option>
@@ -128,7 +136,7 @@
                   <el-row :gutter="10">
                     <el-col :span="8">获取年限</el-col>
                     <el-col :span="10">
-                      <el-input v-model="type.getYears" style="display: flex"
+                      <el-input v-model="form.getYears" style="display: flex"
                                 type="number"></el-input>
                     </el-col>
                     <el-col :span="6">年</el-col>
@@ -140,31 +148,32 @@
           <div>
             <el-form-item label="申报资料配置： ">
             </el-form-item>
-            <div v-for="(t, index) in dynamicValidateForm.dmConfigAddDTOList" :key="t.key">
+            <div
+              v-for="(type, index) in dynamicValidateForm.dmConfigAddDTOList">
               <el-form-item label="内容">
                 <el-row>
                   <el-col :span="6">
-                    <el-input v-model="t.materialTitle"
+                    <el-input v-model="type.materialTitle"
                               style="width: 200px;"></el-input>
                   </el-col>
                   <el-col :span="8">
                     <span style="margin-left: 20px">*以下内容需满足其 </span>
-                    <el-input v-model="t.satisfyQuantity"
+                    <el-input v-model="type.satisfyQuantity"
                               style="width: 80px"></el-input>
                     <span> 即可</span>
                   </el-col>
                   <el-col :span="10">
                     <el-button @click="addFile(index)">新增</el-button>
-                    <el-button @click="removeFile(t)" type="danger">删除</el-button>
+                    <el-button @click="removeFile(type)">删除</el-button>
                   </el-col>
                 </el-row>
               </el-form-item>
-              <div v-for="(item, i) in t.dmcConfigAddDTOList" :key="item.key">
+              <div v-for="(item, i) in type.dmcConfigAddDTOList" :key="i">
                 <el-form-item label="文件名称">
                   <el-input v-model="item.mcontentTitle"
                             style="width: 300px; margin-right: 20px"></el-input>
                   <el-button @click="addFileItem(index)">新增</el-button>
-                  <el-button @click="removeFileItem(item, i)" type="danger">删除</el-button>
+                  <el-button @click="removeFileItem(item, i)">删除</el-button>
                 </el-form-item>
                 <el-form-item label="填写说明">
                   <el-input v-model="item.mcontentDesc" type="textarea"
@@ -173,82 +182,94 @@
               </div>
             </div>
           </div>
-        </div>
+        </template>
       </el-form>
-      <el-button  @click="sumbit" type="primary">提交</el-button>
+      <span slot="footer" class="dialog-footer">
+           <el-button style="margin-top: 12px;" @click="next" v-if="active<2">下一步
+        </el-button>
+        <el-button style="margin-top: 12px;" @click="pre" v-if="active>1">上一步
+        </el-button>
+        <el-button v-if="active>1" @click="sumbit">提交</el-button>
+        </span>
     </el-dialog>
-
-<!--编辑-->
+    <!-- 编辑   -->
     <el-dialog :modal="false" :close-on-click-modal="false"
                @close="resetForm"
                title="编辑"
-               :visible.sync="showEditDialog" top="0vh">
+               :visible.sync="showEditDialog" top="5vh">
+      <el-steps :active="active" align-center>
+        <el-step title="基础配置"></el-step>
+        <el-step title="申报配置"></el-step>
+      </el-steps>
       <el-form ref="form" :model="form" label-width="120px"
                style="margin-top: 20px">
-        <el-form-item label="关联政策">
-          <el-select v-model="form.pid" placeholder="请选择" style="width: 100%">
-            <el-option v-for="item in treeData" :key="item.id"
-                       :label="item.title" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="选择状态">
-          <el-radio-group v-model="form.changeState">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="类别">
-          <el-select v-model="form.type" placeholder="请选择"
-                     style="width: 100%">
-            <el-option v-for="item in typeData" :key="item.bcCode"
-                       :label="item.contentName"
-                       :value="item.bcCode"></el-option>
-          </el-select>
-        </el-form-item>
-        <!-- 专业技术 -->
-        <el-form-item label="专业技术">
-          <el-input v-model="form.majorSkill" style="width: 200px; margin-right: 20px"></el-input>
-        </el-form-item>
-        <!-- 级别职称 -->
-        <div v-for="(type, index) in dynamicValidateForm.typeListItem" style="border: 1px solid salmon; padding: 8px; margin-bottom: 8px">
-          <el-form-item label="级别">
-            <el-select v-model="type.bcCode" placeholder="请选择"
-                       style="margin-right: 20px">
-              <el-option v-for="item in levelData" :key="item.bcCode"
+        <template v-if="active === 1">
+          <el-form-item label="关联政策">
+            <el-select v-model="form.pid" placeholder="请选择" style="width: 100%">
+              <el-option v-for="item in treeData" :key="item.id"
+                         :label="item.title" :value="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="选择状态">
+            <el-radio-group v-model="form.changeState">
+              <el-radio :label="1">启用</el-radio>
+              <el-radio :label="0">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="类别">
+            <el-select v-model="form.type" placeholder="请选择"
+                       style="width: 100%">
+              <el-option v-for="item in typeData" :key="item.bcCode"
                          :label="item.contentName"
                          :value="item.bcCode"></el-option>
             </el-select>
-            <!--            <el-button @click="addType">新增级别</el-button>-->
-            <!--            <el-button @click.prevent="removeType(type)" type="danger">删除</el-button>-->
           </el-form-item>
-          <el-form-item label="职称">
-            <el-input v-model="type.grade"></el-input>
+          <!-- 专业技术 -->
+          <el-form-item label="专业技术">
+            <el-input v-model="form.majorSkill"></el-input>
           </el-form-item>
-
+          <!-- 级别职称 -->
+          <div v-for="(type, index) in dynamicValidateForm.typeListItem">
+            <el-form-item label="级别">
+              <el-select v-model="type.bcCode" placeholder="请选择"
+                         style="margin-right: 20px">
+                <el-option v-for="item in levelData" :key="item.bcCode"
+                           :label="item.contentName"
+                           :value="item.bcCode"></el-option>
+              </el-select>
+              <el-button @click="addType">新增级别</el-button>
+              <el-button @click.prevent="removeType(type)">删除</el-button>
+            </el-form-item>
+            <el-form-item label="职称">
+              <el-input v-model="type.grade"></el-input>
+            </el-form-item>
+          </div>
+        </template>
+        <template v-if="active === 2">
           <div>
             <el-form-item label="申报条件配置： "></el-form-item>
             <el-row :gutter="10">
               <el-col :span="12">
                 <el-form-item label="最小年龄">
-                  <el-input v-model="type.minAge" type="number"></el-input>
+                  <el-input v-model="form.minAge" type="number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="最大年龄">
-                  <el-input v-model="type.maxAge" type="number"></el-input>
+                  <el-input v-model="form.maxAge" type="number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row :gutter="8">
               <el-form-item label="前置职称条件">
                 <el-col :span="16">
-                  <el-select v-model="type.msId" placeholder="专业技术"
+                  <el-select v-model="form.msId" placeholder="专业技术"
                              style="margin-right: 20px" @change="selectTitle">
                     <el-option v-for="item in titleData" :key="item.id"
                                :label="item.majorSkill"
                                :value="item.id"></el-option>
                   </el-select>
-                  <el-select v-model="type.tgId" placeholder="级别"
+                  <el-select v-model="form.tgId" placeholder="级别"
                              style="margin-right: 20px">
                     <el-option v-for="item in titleAndData" :key="item.id"
                                :label="item.grade" :value="item.id"></el-option>
@@ -258,7 +279,7 @@
                   <el-row :gutter="10">
                     <el-col :span="8">获取年限</el-col>
                     <el-col :span="10">
-                      <el-input v-model="type.getYears" style="display: flex"
+                      <el-input v-model="form.getYears" style="display: flex"
                                 type="number"></el-input>
                     </el-col>
                     <el-col :span="6">年</el-col>
@@ -270,31 +291,32 @@
           <div>
             <el-form-item label="申报资料配置： ">
             </el-form-item>
-            <div v-for="(t, index) in dynamicValidateForm.dmConfigAddDTOList" :key="t.key">
+            <div
+              v-for="(type, index) in dynamicValidateForm.dmConfigAddDTOList">
               <el-form-item label="内容">
                 <el-row>
                   <el-col :span="6">
-                    <el-input v-model="t.materialTitle"
+                    <el-input v-model="type.materialTitle"
                               style="width: 200px;"></el-input>
                   </el-col>
                   <el-col :span="8">
                     <span style="margin-left: 20px">*以下内容需满足其 </span>
-                    <el-input v-model="t.satisfyQuantity"
+                    <el-input v-model="type.satisfyQuantity"
                               style="width: 80px"></el-input>
                     <span> 即可</span>
                   </el-col>
                   <el-col :span="10">
                     <el-button @click="addFile(index)">新增</el-button>
-                    <el-button @click="removeFile(t)" type="danger">删除</el-button>
+                    <el-button @click="removeFile(type)">删除</el-button>
                   </el-col>
                 </el-row>
               </el-form-item>
-              <div v-for="(item, i) in t.dmcConfigAddDTOList" :key="item.key">
+              <div v-for="(item, i) in type.dmcConfigAddDTOList" :key="i">
                 <el-form-item label="文件名称">
                   <el-input v-model="item.mcontentTitle"
                             style="width: 300px; margin-right: 20px"></el-input>
-                  <el-button @click="addFileItem(index)">新增</el-button>
-                  <el-button @click="removeFileItem(item, i)" type="danger">删除</el-button>
+                  <el-button @click="addFileItem(i)">新增</el-button>
+                  <el-button @click="removeFileItem(item)">删除</el-button>
                 </el-form-item>
                 <el-form-item label="填写说明">
                   <el-input v-model="item.mcontentDesc" type="textarea"
@@ -303,11 +325,16 @@
               </div>
             </div>
           </div>
-        </div>
+        </template>
       </el-form>
-      <el-button  @click="sumbit" type="primary">提交</el-button>
+      <span slot="footer" class="dialog-footer">
+           <el-button style="margin-top: 12px;" @click="next" v-if="active<2">下一步
+        </el-button>
+        <el-button style="margin-top: 12px;" @click="pre" v-if="active>1">上一步
+        </el-button>
+        <el-button v-if="active>1" @click="sumbit">提交</el-button>
+        </span>
     </el-dialog>
-
   </basic-container>
 </template>
 
@@ -345,16 +372,9 @@ export default {
         //  级别
         typeListItem: [
           {
-            getYears: '',
-            grade: "",
-            gradeType: "",
-            maxAge: '',
-            minAge: '',
-            msId: '',
-            score: '',
-            tgId: '',
-            tid: '',
-          },
+            bcCode: '',
+            grade: ''
+          }
         ],
         // 申报资料配置
         dmConfigAddDTOList: [
@@ -398,7 +418,7 @@ export default {
   created() {
     this.onLoad(this.page);
   },
-    methods: {
+  methods: {
     // 动态新增专业
     removeMajor(item) {
       let index = this.dynamicValidateForm.majorSkillListItem.indexOf(item)
@@ -425,24 +445,19 @@ export default {
         this.dynamicValidateForm.typeListItem.splice(index, 1)
       } else {
         this.$message.error('必须保留一项')
+        return;
       }
     },
     addType() {
       this.dynamicValidateForm.typeListItem.push({
-        getYears: '',
-        grade: "",
-        gradeType: "",
-        maxAge: '',
-        minAge: '',
-        msId: '',
-        score: '',
-        tgId: '',
-        tid: '',
+        bcCode: '',
+        grade: '',
         key: Date.now()
       });
     },
     // 动态新增申报资料
     removeFile(item) {
+      console.log(item);
       if (this.type === 'edit') {
         this.$message.info('删除操作')
       }
@@ -451,6 +466,7 @@ export default {
         this.dynamicValidateForm.dmConfigAddDTOList.splice(index, 1)
       } else {
         this.$message.error('必须保留一项')
+        return;
       }
     },
     addFile(index) {
@@ -476,6 +492,7 @@ export default {
       }
       let selectItem = [];
       this.dynamicValidateForm.dmConfigAddDTOList.forEach((item, index) => {
+        console.log(item.dmcConfigAddDTOList.length);
         if (item.dmcConfigAddDTOList.length === 1) {
           _that.$message.error('必须保留一项')
           return;
@@ -488,17 +505,21 @@ export default {
     addFileItem(i) {
       let json = JSON.stringify(this.dynamicValidateForm.dmConfigAddDTOList);
       let str = JSON.parse(json);
-      console.log(json);
       str.forEach((item, index) => {
         if (i === index) {
           item.dmcConfigAddDTOList.push({
             mcontentDesc: "",
-            mcontentTitle: "",
-            key: Date.now()
+            mcontentTitle: ""
           })
         }
       });
       this.dynamicValidateForm.dmConfigAddDTOList = str;
+    },
+    next() {
+      if (this.active++ > 1) this.active = 1;
+    },
+    pre() {
+      if (this.active-- < 2) this.active = 1;
     },
     // 根据状态显示不同的值
     stateFormat(row) {
@@ -569,14 +590,9 @@ export default {
       getDetail(id)
         .then(res => {
           if (res.data.code === 200) {
+            console.log(res);
             this.form = res.data.data;
-            console.log(this.form);
-            this.dynamicValidateForm.typeListItem = this.form.titleGradeVOList;
-            this.form.titleGradeAddDTOList.dmConfigVOList.forEach(item => {
-              item.dmcConfigVOList.forEach(child => {
-                console.log(child);
-              })
-            })
+            this.dynamicValidateForm.dmConfigAddDTOList = res.data.data.titleGradeVOList;
           }
         }).catch(err => this.$message.error(err))
     },
@@ -675,13 +691,17 @@ export default {
         majorSkillListItem.push(item.value)
       });
       this.dynamicValidateForm.typeListItem.forEach(item => {
-        console.log(item);
-        let data = {
-          ...item,
+        titleGradeAddDTOList.push({
+          grade: item.grade,
+          gradeType: item.bcCode,
+          getYears: form.getYears,
+          maxAge: form.maxAge,
+          minAge: form.minAge,
+          msId: form.msId,
+          tgId: form.tgId,
           dmConfigAddDTOList: this.dynamicValidateForm.dmConfigAddDTOList
-        }
-        titleGradeAddDTOList.push(data)
-      });
+        })
+      })
       let data = {
         pid: form.pid,
         type: form.type,
@@ -700,8 +720,7 @@ export default {
               this.onLoad(this.page)
             }
           }).catch(err => this.$message.error(err))
-      }
-      else if (this.type === 'edit') {
+      } else if (this.type === 'edit') {
         //  编辑
         update(data)
           .then(res => {

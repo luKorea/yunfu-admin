@@ -27,11 +27,44 @@
 
     <!--  查看资料  -->
     <el-dialog width="50%" :modal="false" :close-on-click-modal="false" title="查看资料" :visible.sync="showFile">
-      <el-form :model='fileData' ref="ruleForm">
-
-      </el-form>
+      <div v-if="fileData.reviewTaskDeclareMaterialVoList && fileData.reviewTaskDeclareMaterialVoList.length > 0"
+                v-for="(item, index) in fileData.reviewTaskDeclareMaterialVoList">
+        <el-collapse v-model="activeNames" @change="handleChange">
+          <el-collapse-item :title="item.mname" :name="mid" :key="item.mid">
+            <template v-if="item.reviewTaskDeclareContentVoList && item.reviewTaskDeclareContentVoList.length > 0"
+                      v-for="(child, i) in item.reviewTaskDeclareContentVoList"
+            >
+              <el-collapse v-model="activeNames1" @change="handleChange1" style="margin-left: 20px">
+                <el-collapse-item :title="child.mcName" :key="child.mcId" :name="mcId">
+                 <div v-if="child.udmFileSrc && child.udmFileSrc.length > 0" class="img-list">
+                  <template v-for="(res, number) in JSON.parse(child.udmFileSrc)">
+                  <div :key="number">
+                    <el-image
+                      style="width: 100px; height: 100px"
+                      :src="res"
+                      :preview-src-list="[res]">
+                    </el-image>
+                  </div>
+                  </template>
+                 </div>
+                </el-collapse-item>
+              </el-collapse>
+            </template>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+      <el-alert
+        v-if="fileData.reviewTaskDeclareMaterialVoList && fileData.reviewTaskDeclareMaterialVoList.length === 0"
+        title="暂无数据"
+        type="error"
+        effect="dark"
+        center
+        :closable="false">
+      </el-alert>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="changeState">确认接收</el-button>
+        <el-button
+          v-if="!fileData.reviewTaskDeclareMaterialVoList || fileData.reviewTaskDeclareMaterialVoList.length !== 0"
+          @click="changeState(fileData)">确认接收</el-button>
         <el-button @click="handleShowTask">移交到其他评委会</el-button>
       </div>
     </el-dialog>
@@ -91,6 +124,8 @@ export default {
   },
   data() {
     return {
+      activeNames:[],
+      activeNames1:[],
       showTask: false,
       showFile: false,
       taskData: {},
@@ -169,6 +204,12 @@ export default {
     }
   },
   methods: {
+    handleChange(val) {
+      console.log(val);
+    },
+    handleChange1(val) {
+      console.log(val);
+    },
     goBack() {
       this.$emit('back')
     },
@@ -178,17 +219,22 @@ export default {
       this.showFile = false;
       this.showTask = true;
       this.taskData = this.fileData;
+      this.getJuryData({
+        tgId: this.fileData.tgId,
+        tmsId: this.fileData.tmsId
+      })
     },
     pushLook(row) {
       this.showFile = true;
       this.fileData = row;
     },
     // 确认接收
-    changeState() {
+    changeState(res) {
       let data = {
-        reportingState: this.fileData.reportingState,
-        tdId: this.fileData.tdId
+        reportingState: 1,
+        tdId: res.tgId
       }
+      console.log(data);
       changeState(data)
       .then(res => {
         if (res.data.code === 200) {
@@ -227,15 +273,22 @@ export default {
         tdId: this.taskData.id,
         juryId: this.taskData.juryId
       }
-      update(data).then(() => {
-        this.onLoad(this.page, this.query, this.id);
-        this.$message({
-          type: "success",
-          message: "操作成功!"
-        });
-        this.showTask = false;
-        this.taskData = {};
-      }, error => this.$message.error(error));
+      this.$confirm("确定移出到其他评委会吗?", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          update(data).then(() => {
+            this.onLoad(this.page, this.query, this.id);
+            this.$message({
+              type: "success",
+              message: "操作成功!"
+            });
+            this.showTask = false;
+            this.taskData = {};
+          }, error => this.$message.error(error));
+        }).catch(err => console.log(err))
     },
 
     rowSave(row, done, loading) {
@@ -332,5 +385,9 @@ export default {
   cursor: pointer;
   display: flex;
   flex-direction: row-reverse;
+}
+.img-list {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

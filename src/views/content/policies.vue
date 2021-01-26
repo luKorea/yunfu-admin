@@ -16,6 +16,17 @@
       <el-table-column prop="title" label="标题" align="center"/>
       <!--      <el-table-column prop="nsource" label="来源" align="center"/>-->
       <el-table-column prop="psNumber" label="文件号" align="center"/>
+      <el-table-column prop="columnLable" label="关键字" align="center"/>
+      <el-table-column prop="columnVoList" label="栏目" align="center">
+        <template slot-scope="scope">
+          <div v-if='scope.row.columnVoList && scope.row.columnVoList.length > 0'>
+<!--            <span v-if="scope.row.columnVoList.length > 1">/</span>-->
+            <el-tag v-for="item in scope.row.columnVoList" :key="item.id" style="margin: 2px !important;">
+              {{item.columnName}}
+            </el-tag>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdTime" label="创建时间" align="center"/>
       <el-table-column prop="updatedTime" label="最后修改时间" align="center"/>
       <el-table-column label="状态" prop="changeState" :formatter="stateFormat"
@@ -53,6 +64,22 @@
         </el-form-item>
         <el-form-item label="文件号" :label-width="formLabelWidth" prop="psNumber">
           <el-input v-model="form.psNumber"/>
+        </el-form-item>
+        <el-form-item label="栏目" :label-width="formLabelWidth" prop="columnIds">
+          <el-select v-model="form.columnIds" multiple clearable @change="$forceUpdate()"
+                     placeholder="请选择" style="width: 100%">
+            <el-option v-for="item in labelList"
+                       :key="item.id" :label="item.columnName" :value="Number(item.id)"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关键字" :label-width="formLabelWidth" prop="columnLable">
+          <el-row>
+            <el-col :span="12">
+              <el-input v-model="form.columnLable"/>
+            </el-col>
+            <el-col :span="12"><span style="color: red; margin-left: 20px">* 多个请以英文逗号“,”分割</span></el-col>
+          </el-row>
         </el-form-item>
         <el-form-item label="来源" :label-width="formLabelWidth"
                       v-if="form.releaseForm === 1">
@@ -122,7 +149,8 @@ import {
   update,
   getDetail,
   remove,
-  updateState
+  updateState,
+  getLabelData
 } from "@/api/content/policies";
 import Pagination from '@/components/Pagination/index';
 import {mapGetters} from "vuex";
@@ -146,6 +174,7 @@ export default {
       form: {},
       fileList: [],
       treeData: [],
+      labelList:[],
       query: {},
       keyword: '',
       loading: true,
@@ -173,7 +202,13 @@ export default {
         ],
         recomState: [
           {required: true, message: '请选择推荐状态', trigger: 'blur'}
-        ]
+        ],
+        columnLable: [
+          {required: true, message: '请输入关键字', trigger: 'blur'}
+        ],
+        columnIds: [
+          {required: true, message: '请选择栏目', trigger: 'blur'}
+        ],
       }
     }
   },
@@ -207,6 +242,12 @@ export default {
     }
   },
   methods: {
+    removeTag(item) {
+      console.log(item);
+    },
+    setLabel(list) {
+      console.log(list);
+    },
     getFileData(file) {
       this.form.psContent = file;
     },
@@ -227,7 +268,7 @@ export default {
     },
     // 弹框操作
     setDialog(type, data) {
-      console.log(data);
+      this.getLabelListData();
       this.type = type;
       this.resetForm();
       if (type === 'open') {
@@ -324,6 +365,15 @@ export default {
         keyword: this.keyword
       })
     },
+    // 获取栏目
+    getLabelListData() {
+      getLabelData()
+      .then(res => {
+        if (res.data.code === 200) {
+          this.labelList = res.data.data;
+        }
+      }).catch(err => this.$message.error(err))
+    },
     //  获取详情
     getDetailData(id) {
       this.fileList = [];
@@ -331,6 +381,11 @@ export default {
         .then(res => {
           if (res.data.code === 200) {
             this.form = res.data.data;
+            let result = [];
+            res.data.data.columnVoList.forEach(item => {
+              result.push(Number(item.id));
+              this.form.columnIds = result;
+            })
             this.$nextTick(() => {
               if (this.$refs['editors']) {
                 this.$refs.editors.setHtml(this.form.psContent);

@@ -2,10 +2,9 @@ import request from '@/router/axios';
 
 export const getList = (pageNum, pageSize, params) => {
   return request({
-    url: '/policy/list',
+    url: '/column/list',
     method: 'get',
     params: {
-      ...params,
       pageNum: pageNum,
       pageSize: pageSize
     }
@@ -14,30 +13,22 @@ export const getList = (pageNum, pageSize, params) => {
 
 export const add = (row) => {
   return request({
-    url: '/policy/add',
+    url: '/column/add',
     method: 'post',
     data: row
   })
 }
 
-
-export const getDetail = (id) => {
-  return request({
-    url: `/policy/get/${id}`,
-    method: 'get'
-  })
-}
-
 export const remove = (id) => {
   return request({
-    url: `/policy/delete/${id}`,
+    url: `/column/delete/?id=${id}`,
     method: 'get'
   })
 }
 
 export const update = (row) => {
   return request({
-    url: '/policy/update',
+    url: '/column/update',
     method: 'post',
     data: row
   })
@@ -52,13 +43,5 @@ export const updateState = (row) => {
     params: {
       ...row
     }
-  })
-}
-
-// 获取栏目列表
-export const getLabelData = () => {
-  return request({
-    url:'/column/pull/list',
-    method: 'get'
   })
 }

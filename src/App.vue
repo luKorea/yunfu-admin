@@ -24,4 +24,21 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+.el-collapse {
+  border: none !important;
+}
+.el-collapse-item__header {
+  border: none !important;
+}
+.el-collapse-item__wrap {
+  border: none !important;
+}
+.el-collapse-item__content {
+  padding-bottom: 5px !important;
+}
+.back {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row-reverse;
+}
 </style>

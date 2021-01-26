@@ -31,3 +31,19 @@ export const update = (row) => {
     data: row
   })
 }
+
+// 获取评审任务
+export const getTask = id => {
+  return request({
+    url:`/review-task/get/${id}`,
+    method: 'get'
+  })
+}
+
+// 获取分工组
+export const getLabor = (rtId) => {
+  return request({
+    url: `/work-group/list/${rtId}`,
+    method: 'get',
+  })
+}

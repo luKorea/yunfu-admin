@@ -1,6 +1,7 @@
 <!-- TODO 专家抽取 -->
 <template>
   <basic-container>
+    <el-alert title="专家抽取设置" type="error" :closable="false" center style="margin-bottom: 20px" />
     <div class="time-item">
       <span>不能连续</span>
       <el-input class='time-input' type="number" v-model="content"></el-input>
@@ -11,30 +12,37 @@
       <span>未签到</span>
       <el-input class='time-input' type="number" v-model="content1"></el-input>
       <span>次将不再抽取评委</span>
-      <el-button type="primary" @click="setInfo(' XTPZ10002')">确定</el-button>
+      <el-button type="primary" @click="setInfo('XTPZ10002')">确定</el-button>
     </div>
-    <!--    <div class="time-item">-->
-    <!--      <span>本年度通过率</span>-->
-    <!--      <el-input class='time-input' type="number" v-model="content1"></el-input>-->
-    <!--      <span>%</span>-->
-    <!--      <el-button type="primary">确定</el-button>-->
-    <!--    </div>-->
+        <div class="time-item">
+          <span>本年度通过率</span>
+          <el-input class='time-input' type="number" v-model="content2"></el-input>
+          <span>%</span>
+          <el-button type="primary" @click="setPercentData">确定</el-button>
+        </div>
   </basic-container>
 </template>
 
 <script>
-import {getTimeOrNumber, setTimeType} from "@/api/review/extract";
+import {
+  getPercent,
+  getTimeOrNumber,
+  setPercent,
+  setTimeType
+} from "@/api/review/extract";
 
 export default {
   data() {
     return {
       content: '',
-      content1: ''
+      content1: '',
+      content2: ''
     }
   },
   created() {
     this.getTimeData();
     this.getNumberData();
+    this.getPercentData();
   },
   methods: {
     // 获取评审时间
@@ -68,6 +76,28 @@ export default {
             type === 'XTPZ10001' ? this.getTimeData() : this.getNumberData()
           }
         }).catch(err => this.$message.error(err))
+    },
+
+    getPercentData() {
+      getPercent()
+      .then(res => {
+        if (res.data.code === 200) {
+          let data = res.data.data;
+          this.content2 = data.contentName;
+        }
+      }).catch(err => this.$message.error(err))
+    },
+    setPercentData() {
+      let data = {
+        content: this.content2
+      };
+      setPercent(data)
+      .then(res => {
+        if (res.data.code === 200) {
+          this.$message.success('操作成功');
+          this.getPercentData();
+        }
+      }).catch(err => this.$message.error(err))
     }
   }
 }

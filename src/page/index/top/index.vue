@@ -20,14 +20,14 @@
     <!--      </span>-->
     <!--    </div>-->
     <div class="top-bar__right">
-      <el-tooltip v-if="showColor"
-                  effect="dark"
-                  :content="$t('navbar.color')"
-                  placement="bottom">
-        <div class="top-bar__item">
-          <top-color></top-color>
-        </div>
-      </el-tooltip>
+<!--      <el-tooltip v-if="showColor"-->
+<!--                  effect="dark"-->
+<!--                  :content="$t('navbar.color')"-->
+<!--                  placement="bottom">-->
+<!--        <div class="top-bar__item">-->
+<!--          <top-color></top-color>-->
+<!--        </div>-->
+<!--      </el-tooltip>-->
       <!--   日志功能   -->
       <!--      <el-tooltip v-if="showDebug"-->
       <!--                  effect="dark"-->
@@ -46,14 +46,14 @@
       <!--          <top-lock></top-lock>-->
       <!--        </div>-->
       <!--      </el-tooltip>-->
-      <el-tooltip v-if="showTheme"
-                  effect="dark"
-                  :content="$t('navbar.theme')"
-                  placement="bottom">
-        <div class="top-bar__item top-bar__item--show">
-          <top-theme></top-theme>
-        </div>
-      </el-tooltip>
+<!--      <el-tooltip v-if="showTheme"-->
+<!--                  effect="dark"-->
+<!--                  :content="$t('navbar.theme')"-->
+<!--                  placement="bottom">-->
+<!--        <div class="top-bar__item top-bar__item&#45;&#45;show">-->
+<!--          <top-theme></top-theme>-->
+<!--        </div>-->
+<!--      </el-tooltip>-->
       <!--   消息通知   -->
       <!--      <el-tooltip effect="dark"-->
       <!--                  :content="$t('navbar.notice')"-->
@@ -62,22 +62,22 @@
       <!--          <top-notice></top-notice>-->
       <!--        </div>-->
       <!--      </el-tooltip>-->
-      <el-tooltip effect="dark"
-                  :content="$t('navbar.language')"
-                  placement="bottom">
-        <div class="top-bar__item top-bar__item--show">
-          <top-lang></top-lang>
-        </div>
-      </el-tooltip>
-      <el-tooltip v-if="showFullScren"
-                  effect="dark"
-                  :content="isFullScren?$t('navbar.screenfullF'):$t('navbar.screenfull')"
-                  placement="bottom">
-        <div class="top-bar__item">
-          <i :class="isFullScren?'icon-tuichuquanping':'icon-quanping'"
-             @click="handleScreen"></i>
-        </div>
-      </el-tooltip>
+<!--      <el-tooltip effect="dark"-->
+<!--                  :content="$t('navbar.language')"-->
+<!--                  placement="bottom">-->
+<!--        <div class="top-bar__item top-bar__item&#45;&#45;show">-->
+<!--          <top-lang></top-lang>-->
+<!--        </div>-->
+<!--      </el-tooltip>-->
+<!--      <el-tooltip v-if="showFullScren"-->
+<!--                  effect="dark"-->
+<!--                  :content="isFullScren?$t('navbar.screenfullF'):$t('navbar.screenfull')"-->
+<!--                  placement="bottom">-->
+<!--        <div class="top-bar__item">-->
+<!--          <i :class="isFullScren?'icon-tuichuquanping':'icon-quanping'"-->
+<!--             @click="handleScreen"></i>-->
+<!--        </div>-->
+<!--      </el-tooltip>-->
       <img class="top-bar__img"
            :src="userInfo.avatar">
       <el-dropdown>
